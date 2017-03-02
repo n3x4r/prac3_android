@@ -9,6 +9,9 @@
     <string name="contactando">Tlf. de contacto: 973.702.700</string>
     <string name="sms">Enviar SMS</string>
     <string name="email">Enviar email</string>
+    <string name="galeria">Acceder a galeria</string>
+    <string name="sms_data">Tlf. destino: 646888777</string>
+    <string name="email_data">Email destinatario: sss@udl.cat</string>
 
     <string name="Boto1">Por coord.</string>
     <string name="Boto2">Por direcc.</string>
@@ -19,6 +22,7 @@
     <string name="Boto7">LLamar</string>
     <string name="Boto8">SMS</string>
     <string name="Boto9">Email</string>
+    <string name="Boto10">Galeria</string>
 
 
 </resources>

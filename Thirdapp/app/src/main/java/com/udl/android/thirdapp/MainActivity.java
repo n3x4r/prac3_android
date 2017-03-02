@@ -27,6 +27,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
     private static final int MYPERMISSIONS_EX_STORAGE = 2 ;
     private static final int RESULT_LOAD_IMAGE = 0;
     private Intent in;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,8 +57,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     }
 
-    //para sms
-    //putextra(Keydelsistema,)+ uri.paser("sms")
     @SuppressWarnings("deprecation")
     public void onClick (View v) {
         switch (v.getId()) {
@@ -111,7 +110,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 }else {
                     Toast.makeText(this, "Enviar sms", Toast.LENGTH_LONG).show();
                     in = new Intent(Intent.ACTION_SENDTO);
-                    in.setData(Uri.parse("smsto:" + Uri.encode("97343354")));
+                    in.setData(Uri.parse("smsto:" + Uri.encode("646888777")));
                     in.putExtra("sms_body", "Hello this is a Test");
                     startActivity(in);
                 }
@@ -119,7 +118,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
             case R.id.button9:
                 in = new Intent(Intent.ACTION_SEND);
                 in.setType("*/*");
-                in.putExtra(Intent.EXTRA_EMAIL, new String[] { "someone@gmail.com" });
+                in.putExtra(Intent.EXTRA_EMAIL, new String[] { "sss@udl.cat" });
                 in.putExtra(Intent.EXTRA_SUBJECT, "Test Email");
                 in.putExtra(Intent.EXTRA_TEXT, "This is a Test");
                 startActivity(in);
@@ -160,12 +159,11 @@ public class MainActivity extends Activity implements View.OnClickListener {
             case MYPERMISSIONS_SMS:{
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
                     // permission was granted, yay! Do the
                     // contacts-related task you need to do.
                     Toast.makeText(this, "Enviar sms", Toast.LENGTH_LONG).show();
                     in = new Intent(Intent.ACTION_SENDTO);
-                    in.setData(Uri.parse("smsto:" + Uri.encode("97343354")));
+                    in.setData(Uri.parse("smsto:" + Uri.encode("646888777")));
                     in.putExtra("sms_body", "Hello this is a Test");
                     startActivity(in);
 
@@ -179,24 +177,17 @@ public class MainActivity extends Activity implements View.OnClickListener {
             }
 
             case MYPERMISSIONS_EX_STORAGE:{
-                // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                    // permission was granted, yay! Do the
-                    // contacts-related task you need to do.
                     in = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     startActivityForResult(in, RESULT_LOAD_IMAGE);
-
                 } else {
-
                     // permission denied, boo! Disable the
                     // functionality that depends on this permission.
                 }
                 return;
             }
 
-            // other 'case' lines to check for other
-            // permissions this app might request
+
         }
     }
     public void accessResources(String typeAccess, int constantReference){

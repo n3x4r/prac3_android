@@ -6,9 +6,14 @@
               android:orientation="vertical" >
 
 <TextView
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:text="@string/conociendo" />
+    android:text="@string/conociendo"
+    android:layout_gravity="center"
+    android:textSize="20dp"
+    android:textStyle="bold"
+    android:textColor="#000000"
+    android:padding="10dp"/>
 
 <TextView
     android:layout_width="match_parent"
@@ -86,11 +91,23 @@
 
 </LinearLayout>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        style="?android:listSeparatorTextViewStyle"/>
+
 <Button
     android:id="@+id/button6"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:layout_gravity="center"
     android:text="@string/Boto6" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/sms" />
 
 <LinearLayout
     android:layout_width="match_parent"
@@ -101,7 +118,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="@string/sms" />
+        android:text="@string/sms_data" />
 
 
     <Button
@@ -113,6 +130,12 @@
 
 </LinearLayout>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/email" />
+
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -122,7 +145,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="@string/email" />
+        android:text="@string/email_data" />
 
 
     <Button
@@ -143,14 +166,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="galeria" />
+        android:text="@string/galeria" />
 
 
     <Button
         android:id="@+id/button10"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="galeria"
+        android:text="@string/Boto10"
         />
 
 </LinearLayout>

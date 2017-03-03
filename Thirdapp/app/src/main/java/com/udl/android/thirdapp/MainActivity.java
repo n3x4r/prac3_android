@@ -6,6 +6,7 @@ import android.app.SearchManager;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.Contacts;
@@ -26,6 +27,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
     private static final int MYPERMISSIONS_SMS = 1;
     private static final int MYPERMISSIONS_EX_STORAGE = 2 ;
     private static final int RESULT_LOAD_IMAGE = 0;
+    private static final int REQUEST_IMAGE_CAPTURE = 1;
+
     private Intent in;
 
     @Override
@@ -43,6 +46,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         Button btn8 = (Button) findViewById(R.id.button8);
         Button btn9 = (Button) findViewById(R.id.button9);
         Button btn10 = (Button) findViewById(R.id.button10);
+        Button btn11 = (Button) findViewById(R.id.button11);
 
         btn1.setOnClickListener(this);
         btn2.setOnClickListener(this);
@@ -54,6 +58,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         btn8.setOnClickListener(this);
         btn9.setOnClickListener(this);
         btn10.setOnClickListener(this);
+        btn11.setOnClickListener(this);
 
     }
 
@@ -79,7 +84,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 break;
             case R.id.button4:
                 Toast.makeText(this, "Buscando en Google", Toast.LENGTH_LONG).show();
-                //in = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.google.com/search?q=" + "escola politecnica superior UdL"));
                 in = new Intent(Intent.ACTION_WEB_SEARCH);
                 in.putExtra(SearchManager.QUERY, "escola politecnica superior UdL");
                 startActivity(in);
@@ -99,23 +103,18 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 if (ContextCompat.checkSelfPermission(this,Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
                     accessResources(Manifest.permission.CALL_PHONE,MYPERMISSIONS_CALL_PHONE);
                 }else{
-                    Toast.makeText(this, "Realizando llamada", Toast.LENGTH_LONG).show();
-                    in = new Intent(Intent.ACTION_CALL, Uri.parse("tel:617773082"));
-                    startActivity(in);
+                    button7();
                 }
                 break;
             case R.id.button8:
                 if (ContextCompat.checkSelfPermission(this,Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
                     accessResources(Manifest.permission.SEND_SMS,MYPERMISSIONS_SMS);
                 }else {
-                    Toast.makeText(this, "Enviar sms", Toast.LENGTH_LONG).show();
-                    in = new Intent(Intent.ACTION_SENDTO);
-                    in.setData(Uri.parse("smsto:" + Uri.encode("646888777")));
-                    in.putExtra("sms_body", "Hello this is a Test");
-                    startActivity(in);
+                    button8();
                 }
                 break;
             case R.id.button9:
+                Toast.makeText(this, "Accediendo a Email", Toast.LENGTH_LONG).show();
                 in = new Intent(Intent.ACTION_SEND);
                 in.setType("*/*");
                 in.putExtra(Intent.EXTRA_EMAIL, new String[] { "sss@udl.cat" });
@@ -127,10 +126,18 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 if (ContextCompat.checkSelfPermission(this,Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                     accessResources(Manifest.permission.READ_EXTERNAL_STORAGE,MYPERMISSIONS_EX_STORAGE);
                 }else {
-                    in = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    startActivityForResult(in, RESULT_LOAD_IMAGE);
+                    button10();
                 }
                 break;
+            case R.id.button11:
+                in = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                if (in.resolveActivity(getPackageManager()) != null) {
+                    //startActivity(in);
+                    startActivityForResult(in, REQUEST_IMAGE_CAPTURE);
+
+                }
+                break;
+
 
         }
     }
@@ -144,9 +151,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
                     // permission was granted, yay! Do the
                     // contacts-related task you need to do.
-                    Toast.makeText(this, "Realizando llamada", Toast.LENGTH_LONG).show();
-                    in = new Intent(Intent.ACTION_CALL, Uri.parse("tel:617773082"));
-                    startActivity(in);
+                    button7();
 
                 } else {
 
@@ -159,27 +164,20 @@ public class MainActivity extends Activity implements View.OnClickListener {
             case MYPERMISSIONS_SMS:{
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // permission was granted, yay! Do the
-                    // contacts-related task you need to do.
-                    Toast.makeText(this, "Enviar sms", Toast.LENGTH_LONG).show();
-                    in = new Intent(Intent.ACTION_SENDTO);
-                    in.setData(Uri.parse("smsto:" + Uri.encode("646888777")));
-                    in.putExtra("sms_body", "Hello this is a Test");
-                    startActivity(in);
+
+                    button8();
 
                 } else {
                     in = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     startActivityForResult(in, RESULT_LOAD_IMAGE);
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
+
                 }
                 return;
             }
 
             case MYPERMISSIONS_EX_STORAGE:{
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    in = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    startActivityForResult(in, RESULT_LOAD_IMAGE);
+                    button10();
                 } else {
                     // permission denied, boo! Disable the
                     // functionality that depends on this permission.
@@ -227,6 +225,30 @@ public class MainActivity extends Activity implements View.OnClickListener {
             cursor.close();
             ImageView imageView = (ImageView) findViewById(R.id.imgView);
             imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+        }else if(requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            ImageView imageView = (ImageView) findViewById(R.id.imgView);
+            imageView.setImageBitmap(imageBitmap);
         }
+    }
+
+    private void button7(){
+        Toast.makeText(this, "Realizando llamada", Toast.LENGTH_LONG).show();
+        in = new Intent(Intent.ACTION_CALL, Uri.parse("tel:617773082"));
+        startActivity(in);
+    }
+
+    private void button8(){
+        Toast.makeText(this, "Enviando sms", Toast.LENGTH_LONG).show();
+        in = new Intent(Intent.ACTION_SENDTO);
+        in.setData(Uri.parse("smsto:" + Uri.encode("646888777")));
+        in.putExtra("sms_body", "Hello this is a Test");
+        startActivity(in);
+    }
+    private void button10(){
+        Toast.makeText(this, "Accediendo a Galeria", Toast.LENGTH_LONG).show();
+        in = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(in, RESULT_LOAD_IMAGE);
     }
 }

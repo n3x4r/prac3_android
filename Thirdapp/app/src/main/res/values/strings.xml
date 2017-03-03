@@ -22,7 +22,9 @@
     <string name="Boto7">LLamar</string>
     <string name="Boto8">SMS</string>
     <string name="Boto9">Email</string>
-    <string name="Boto10">Galeria</string>
+    <string name="Boto10">Ver galeria</string>
+    <string name="Boto11">Tomar Foto</string>
+
 
 
 </resources>
